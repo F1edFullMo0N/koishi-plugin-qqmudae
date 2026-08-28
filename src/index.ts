@@ -23,19 +23,19 @@ export const Config: Schema<Config> = Schema.object({
   drawCost: Schema.number()
     .min(1)
     .step(1)
-    .default(100)
+    .default(80)
     .description('每次抽卡消耗的金币。'),
 
   dailyRewardMin: Schema.number()
   .min(0)
   .step(1)
-  .default(80)
+  .default(50)
   .description('每日签到随机金币的最低值。'),
 
   dailyRewardMax: Schema.number()
   .min(0)
   .step(1)
-  .default(120)
+  .default(150)
   .description('每日签到随机金币的最高值。'),
 
   sellPriceMin: Schema.number()
@@ -47,12 +47,12 @@ export const Config: Schema<Config> = Schema.object({
   sellPriceMax: Schema.number()
     .min(0)
     .step(1)
-    .default(90)
+    .default(500)
     .description('角色出售价格的最高值。'),
 
   sellPriceFactor: Schema.number()
     .min(0)
-    .default(1.3)
+    .default(2)
     .description('出售价格公式中的人气系数。'),
 
   timezone: Schema.string()
@@ -523,9 +523,9 @@ export function apply(
               lastDailyDate: today,
             },
           )
-
+          const username = session.username || session.userId
           return (
-            '✅ ${username} 签到成功！\n' +
+            `✅ ${username} 签到成功！\n` +
             `💰 获得：${reward} 金币\n` +
             `💰 当前余额：${newCoins}\n`
           )
