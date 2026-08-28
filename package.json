@@ -1,23 +1,15 @@
 {
   "name": "koishi-plugin-qq-mudae",
-  "version": "1.0.0",
-  "description": "A Koishi character collection and gacha plugin with group-based ownership and coin economy.",
+  "description": "Koishi 二次元角色抽卡与图鉴收集插件",
+  "version": "1.0.1",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
   "files": [
-    "lib",
-    "dist"
+    "lib"
   ],
   "license": "AGPL-3.0",
-  "homepage": "https://github.com/F1edFullMo0N/KoishiPlugin-QQMudae",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/F1edFullMo0N/KoishiPlugin-QQMudae.git"
-  },
-  "bugs": {
-    "url": "https://github.com/F1edFullMo0N/KoishiPlugin-QQMudae/issues"
-  },
   "keywords": [
+    "bot",
     "chatbot",
     "koishi",
     "plugin",
@@ -28,13 +20,21 @@
     "character",
     "collection"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/F1edFullMo0N/koishi-plugin-qqmudae.git"
+  },
+  "bugs": {
+    "url": "https://github.com/F1edFullMo0N/koishi-plugin-qqmudae/issues"
+  },
+  "homepage": "https://github.com/F1edFullMo0N/koishi-plugin-qqmudae",
   "peerDependencies": {
     "koishi": "^4.18.7"
   },
   "koishi": {
     "description": {
-      "zh": "基于金币经济的二次元角色抽卡与收集插件。",
-      "en": "A character gacha and collection plugin with coin economy and group-based unique ownership."
+      "en": "A character gacha and collection plugin with coin economy, selling and group rankings.",
+      "zh": "二次元角色抽卡与图鉴收集插件，支持金币经济、角色出售和群排行。"
     },
     "service": {
       "required": [

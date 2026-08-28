@@ -245,6 +245,52 @@ async function getOrCreatePlayer(
   })
 }
 
+async function fetchImage(
+  url: string,
+): Promise<{
+  buffer: Buffer
+  mime: string
+} | null> {
+  try {
+    const response = await fetch(url, {
+      signal: AbortSignal.timeout(10000),
+      headers: {
+        'User-Agent': 'Mozilla/5.0',
+      },
+    })
+
+    if (!response.ok) {
+      return null
+    }
+
+    const contentType =
+      response.headers.get('content-type')
+      ?? 'image/jpeg'
+
+    if (!contentType.startsWith('image/')) {
+      return null
+    }
+
+    const arrayBuffer =
+      await response.arrayBuffer()
+
+    const buffer =
+      Buffer.from(arrayBuffer)
+
+    // 防止异常大图片
+    if (buffer.length > 5 * 1024 * 1024) {
+      return null
+    }
+
+    return {
+      buffer,
+      mime: contentType.split(';')[0],
+    }
+  } catch {
+    return null
+  }
+}
+
 async function getPlayerRank(
   ctx: Context,
   platform: string,
@@ -668,9 +714,19 @@ export function apply(
             return text.trimEnd()
           }
 
+          const image =
+            await fetchImage(imageUrl)
+
+          if (!image) {
+            return text.trimEnd()
+          }
+
           return [
             h.text(text),
-            h.image(imageUrl),
+            h.image(
+              image.buffer,
+              image.mime,
+            ),
           ]
         },
       )
