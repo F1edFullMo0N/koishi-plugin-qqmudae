@@ -11,7 +11,8 @@ export const inject = ['database']
 
 export interface Config {
   drawCost: number
-  dailyReward: number
+  dailyRewardMin: number
+  dailyRewardMax: number
   sellPriceMin: number
   sellPriceMax: number
   sellPriceFactor: number
@@ -25,11 +26,17 @@ export const Config: Schema<Config> = Schema.object({
     .default(100)
     .description('每次抽卡消耗的金币。'),
 
-  dailyReward: Schema.number()
-    .min(0)
-    .step(1)
-    .default(100)
-    .description('每日签到获得的金币。'),
+  dailyRewardMin: Schema.number()
+  .min(0)
+  .step(1)
+  .default(80)
+  .description('每日签到随机金币的最低值。'),
+
+  dailyRewardMax: Schema.number()
+  .min(0)
+  .step(1)
+  .default(120)
+  .description('每日签到随机金币的最高值。'),
 
   sellPriceMin: Schema.number()
     .min(0)
@@ -139,6 +146,24 @@ function getScopeId(session: Session): string {
 
 function getScopeLockKey(session: Session): string {
   return `${session.platform}:${getScopeId(session)}`
+}
+
+function getDailyReward(
+  config: Config,
+): number {
+  const min = Math.min(
+    config.dailyRewardMin,
+    config.dailyRewardMax,
+  )
+
+  const max = Math.max(
+    config.dailyRewardMin,
+    config.dailyRewardMax,
+  )
+
+  return Math.floor(
+    Math.random() * (max - min + 1),
+  ) + min
 }
 
 function getTodayKey(timezone: string): string {
@@ -442,7 +467,7 @@ export function apply(
         '🎴 QQMudae',
         '',
         '【经济】',
-        `/签到 - 每日领取 ${config.dailyReward} 金币`,
+        `/签到 - 每日领取随机数量的金币`,
         `/抽卡 - 消耗 ${config.drawCost} 金币抽取角色`,
         '/余额 - 查看金币与收藏状态',
         '',
@@ -484,8 +509,11 @@ export function apply(
             )
           }
 
+          const reward =
+            getDailyReward(config)
+
           const newCoins =
-            player.coins + config.dailyReward
+            player.coins + reward
 
           await ctx.database.set(
             'mudae_player',
@@ -497,8 +525,8 @@ export function apply(
           )
 
           return (
-            '✅ 签到成功！\n' +
-            `💰 获得：${config.dailyReward} 金币\n` +
+            '✅ ${username} 签到成功！\n' +
+            `💰 获得：${reward} 金币\n` +
             `💰 当前余额：${newCoins}\n`
           )
         },
@@ -702,7 +730,7 @@ export function apply(
               : undefined
 
           const text =
-            `🎉 成功收录：${character.name}\n` +
+            `🎉 ${username} 成功收录：${character.name}\n` +
             `ID：${characterId}\n` +
             `🔥 角色人气：${heat}\n` +
             `💰 当前余额：${newCoins}\n` +

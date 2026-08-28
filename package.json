@@ -1,7 +1,7 @@
 {
   "name": "koishi-plugin-qq-mudae",
   "description": "Koishi 二次元角色抽卡与图鉴收集插件",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
   "files": [
