@@ -4,19 +4,6 @@ import { CharacterManager } from './character-manager'
 export const name = 'qq-mudae'
 export const inject = ['database']
 
-export const usage = `
-QQMudae v1.0
-
-请确保 Koishi 的全局指令前缀包含 "/"。
-本插件只响应实际以 "/" 开头的指令，例如：
-
-/签到
-/抽卡
-/余额
-/图鉴
-/出售 12393
-/排行
-`
 
 // ============================================================
 // 配置
@@ -144,13 +131,7 @@ async function withScopeLock<T>(
 // 通用工具
 // ============================================================
 
-/**
- * Koishi 群聊中的 "/" 应配置为全局 prefix。
- * 私聊默认允许无前缀调用，所以这里额外要求原始消息以 "/" 开头。
- */
-function hasSlashPrefix(session: Session): boolean {
-  return session.content.trimStart().startsWith('/')
-}
+
 
 function getScopeId(session: Session): string {
   return session.guildId ?? `private:${session.userId}`
@@ -411,9 +392,7 @@ export function apply(
   )
     .alias('菜单')
     .action(({ session }) => {
-      if (!hasSlashPrefix(session)) return
-
-      return [
+       [
         '🎴 QQMudae',
         '',
         '【经济】',
@@ -441,7 +420,7 @@ export function apply(
     '签到',
   )
     .action(async ({ session }) => {
-      if (!hasSlashPrefix(session)) return
+       
 
       return withScopeLock(
         getScopeLockKey(session),
@@ -488,7 +467,7 @@ export function apply(
     '余额',
   )
     .action(async ({ session }) => {
-      if (!hasSlashPrefix(session)) return
+       
 
       return withScopeLock(
         getScopeLockKey(session),
@@ -552,7 +531,7 @@ export function apply(
   )
     .alias('ck')
     .action(async ({ session }) => {
-      if (!hasSlashPrefix(session)) return
+       
 
       return withScopeLock(
         getScopeLockKey(session),
@@ -709,7 +688,7 @@ export function apply(
         { session },
         characterId,
       ) => {
-        if (!hasSlashPrefix(session)) return
+         
 
         return withScopeLock(
           getScopeLockKey(session),
@@ -841,7 +820,7 @@ export function apply(
         { session },
         pageArg,
       ) => {
-        if (!hasSlashPrefix(session)) return
+         
 
         return withScopeLock(
           getScopeLockKey(session),
@@ -1000,7 +979,7 @@ export function apply(
   )
     .alias('群排行')
     .action(async ({ session }) => {
-      if (!hasSlashPrefix(session)) return
+       
 
       if (!session.guildId) {
         return '⚠️ /排行 只能在群聊中查看。'
