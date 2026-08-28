@@ -702,7 +702,7 @@ export function apply(
               : undefined
 
           const text =
-            `🎉 成功收录：${character.name}\n` +
+            `🎉 ${username} 成功收录：${character.name}\n` +
             `ID：${characterId}\n` +
             `🔥 角色人气：${heat}\n` +
             `💰 当前余额：${newCoins}\n` +
