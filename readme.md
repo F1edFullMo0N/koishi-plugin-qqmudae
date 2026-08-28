@@ -1,4 +1,4 @@
-# KoishiPlugin-QQMudae
+# koishi-plugin-qqmudae
 
 基于 **Koishi** 的群聊角色抽卡与收集插件。
 
