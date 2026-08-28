@@ -13,6 +13,40 @@ export class CharacterManager {
   constructor() {
     this.characters = charactersData as Character[]
   }
+  getRandomCharacterExcluding(
+    excludedIds: Set<string>,
+  ): Character | undefined {
+    if (
+      this.characters.length === 0 ||
+      excludedIds.size >= this.characters.length
+    ) {
+      return undefined
+    }
+
+    for (let i = 0; i < 1000; i++) {
+      const character = this.getRandomCharacter()
+
+      if (
+        character &&
+        !excludedIds.has(String(character.id))
+      ) {
+        return character
+      }
+    }
+
+    const available = this.characters.filter(
+      (character) =>
+        !excludedIds.has(String(character.id)),
+    )
+
+    if (!available.length) {
+      return undefined
+    }
+
+    return available[
+      Math.floor(Math.random() * available.length)
+    ]
+  }
 
   getRandomCharacter(limit?: number): Character | undefined {
     if (!this.characters.length) {

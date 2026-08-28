@@ -1,22 +1,45 @@
 {
   "name": "koishi-plugin-qq-mudae",
-  "description": "Mudae",
-  "version": "0.0.1",
+  "version": "1.0.0",
+  "description": "A Koishi character collection and gacha plugin with group-based ownership and coin economy.",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
   "files": [
     "lib",
     "dist"
   ],
-  "license": "MIT",
-  "scripts": {},
+  "license": "AGPL-3.0",
+  "homepage": "https://github.com/F1edFullMo0N/KoishiPlugin-QQMudae",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/F1edFullMo0N/KoishiPlugin-QQMudae.git"
+  },
+  "bugs": {
+    "url": "https://github.com/F1edFullMo0N/KoishiPlugin-QQMudae/issues"
+  },
   "keywords": [
     "chatbot",
     "koishi",
-    "plugin"
+    "plugin",
+    "qq",
+    "mudae",
+    "gacha",
+    "anime",
+    "character",
+    "collection"
   ],
-  "devDependencies": {},
   "peerDependencies": {
     "koishi": "^4.18.7"
+  },
+  "koishi": {
+    "description": {
+      "zh": "基于金币经济的二次元角色抽卡与收集插件。",
+      "en": "A character gacha and collection plugin with coin economy and group-based unique ownership."
+    },
+    "service": {
+      "required": [
+        "database"
+      ]
+    }
   }
 }
